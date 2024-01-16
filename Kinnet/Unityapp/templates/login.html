@@ -1,0 +1,49 @@
+<!-- Unityapp/templates/login.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: -50px;
+        }
+        form {
+            max-width: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        label, input {
+            margin-bottom: 25px;
+        }
+        a {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ログイン</h1>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <!-- ニックネーム、パスワードのフォームをここに追加 -->
+        <label for="nickname">ニックネーム:</label>
+        <input type="text" id="nickname" name="nickname" required><br>
+
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <input type="submit" value="ログイン">
+    </form>
+    <p>新規登録はまだですか？ <a href="{% url 'signup' %}">こちら</a></p>
+
+    <a href="{% url 'logout' %}">ログアウト</a>
+
+    <a href="{% url 'password_reset' %}">パスワードを忘れた場合</a>
+</body>
+</html>

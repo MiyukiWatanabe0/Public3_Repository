@@ -1,0 +1,43 @@
+<!-- home. html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset~"UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザー画面</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; 
+            margin: -90px; 0 0 0;
+        }
+        h1 {
+            font-size: 32px; 
+        }
+        p {
+            font-size: 28px;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+        .links {
+            display: block;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>障がい者家族・きょうだいサイトへようこそ！</h1>
+    <p>ユーザー画面</p>
+
+    <div>
+        <a href="{% url 'signup' %}">新規登録</a>
+        <a href="{% url 'login' %}">ログイン</a>
+    </div>
+</body>
+</html>
