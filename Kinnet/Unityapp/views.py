@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
+import pdb
 
 class HomePageView(View):
     def get(self, request):
@@ -16,11 +17,14 @@ class SignupView(View):
     
     def post(self, request):
         form = UserCreationForm(request.POST)
+        # pdb.set_trace()
         if form.is_valid():
+            print("True")
             user = form.save()
             login(request, user)
             return redirect('home')
 
+        print("False")
         return render(request, self.template_name, {'form': form})
         
 class LoginView(View):
@@ -33,6 +37,7 @@ class LoginView(View):
 
         user = authenticate(request, username=nickname, password=password)
 
+        # pdb.set_trace()
         if user is not None:
             login(request, user)
             return redirect('home')
