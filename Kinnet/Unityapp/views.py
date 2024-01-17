@@ -3,6 +3,8 @@ from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 import pdb
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 class HomePageView(View):
     def get(self, request):
@@ -32,10 +34,10 @@ class LoginView(View):
         return render(request, 'login.html')
 
     def post(self, request):
-        nickname = request.POST.get('nickname')
+        username = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=nickname, password=password)
+        user = authenticate(request, username=username, password=password)
 
         # pdb.set_trace()
         if user is not None:
@@ -48,7 +50,11 @@ class LogoutView(View):
     def get(self,request):
         request.session.clear()
         return redirect('home')
-           
+    
+class HomeHomeView(View):
+    def get(self, request):
+        return render(request, 'home_home.html')
+
 def signup_view(request):
     return render(request, 'signup.html')
 
@@ -62,11 +68,10 @@ def register_view(request):
 
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
-        if form.is_vaild():
+        if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('home')
-        
         else:
             form = UserCreationForm()
 
