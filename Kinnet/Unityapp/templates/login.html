@@ -32,8 +32,8 @@
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <!-- ニックネーム、パスワードのフォームをここに追加 -->
-        <label for="nickname">ニックネーム:</label>
-        <input type="text" id="nickname" name="nickname" required><br>
+        <label for="username">ニックネーム:</label>
+        <input type="text" id="username" name="username" required><br>
 
         <label for="password">パスワード:</label>
         <input type="password" id="password" name="password" required><br>

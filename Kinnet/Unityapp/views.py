@@ -34,14 +34,18 @@ class LoginView(View):
         return render(request, 'login.html')
 
     def post(self, request):
+        # pdb.set_trace()
         username = request.POST.get('username')
         password = request.POST.get('password')
+        print(f"Username: {username}, Password: {password}")
 
         user = authenticate(request, username=username, password=password)
+        print(f"Authenticated user: {user}")
 
         # pdb.set_trace()
         if user is not None:
             login(request, user)
+            print("Login successful")
             return redirect('home')
         else:
             return render(request, 'login.html', {'error': 'Invalid login credentials'})
