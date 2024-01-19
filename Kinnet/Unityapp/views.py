@@ -46,7 +46,7 @@ class LoginView(View):
         if user is not None:
             login(request, user)
             print("Login successful")
-            return redirect('home')
+            return redirect('home_home')
         else:
             return render(request, 'login.html', {'error': 'Invalid login credentials'})
 
@@ -57,7 +57,47 @@ class LogoutView(View):
     
 class HomeHomeView(View):
     def get(self, request):
-        return render(request, 'home_home.html')
+        if request.user.is_authenticated:
+            # ログインユーザーが存在する場合
+            return render(request, 'home_home.html', {'user': request.user})
+        else:
+            # ログインしていない場合の処理（例: ログインページへのリダイレクトなど）
+            # お好みに合わせて実装してください
+            return render(request, 'login.html')
+        
+class ChatView(View):
+    def get(self, request):
+        # ChatViewの実装
+        return render(request, 'chat_home.html')
+    
+class BulletinBoardView(View):
+    def get(self, request):
+        # BulletinBoardViewの実装
+        return render(request, 'bulletin_board.html')
+
+class DiaryView(View):
+    def get(self, request):
+        # DiaryViewの実装
+        return render(request, 'diary.html')
+    
+class ChatHomeView(View):
+    def get(self, request):
+        return render(request, 'chat_home.html')
+    
+class CreateChatRoomView(View):
+    def get(self, request):
+        # チャットルーム作成の実装
+        return render(request, 'create_chat_room.html')
+
+class ChatLoginView(View):
+    def get(self, request):
+        # ログインの実装
+        return render(request, 'chat_login.html')
+
+class ChatHomePageView(View):
+    def get(self, request):
+        # チャットホームページの実装
+        return render(request, 'chat_home_page.html')
 
 def signup_view(request):
     return render(request, 'signup.html')

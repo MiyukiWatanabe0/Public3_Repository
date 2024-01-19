@@ -2,18 +2,24 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: -120px 0 0;  /* 余白を削除 */
+        }
+        /* 他のスタイルはここに追加できます */
+    </style>
     <!-- headの内容を記述 -->
 </head>
 <body>
     <h1>ホーム画面</h1>
     <p>ようこそ、{{ user.username }}さん</p>
     {% include 'home_menu.html' %}
+
 </body>
 </html>
 
-<!-- Unityapp/templates/home_menu.html -->
-<ul>
-   <li><a href="{% url 'chat' %}">チャット</a></li>
-   <li><a href="{% url 'bulletin_board' %}">掲示板</a></li>
-   <li><a href="{% url 'diary' %}">ひとこと日記</a></li>
-</ul>
