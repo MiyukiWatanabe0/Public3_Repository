@@ -1,0 +1,38 @@
+<!-- Unityapp/templates/diary.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日記</title>
+</head>
+<body>
+    <h1>日記</h1>
+
+    <!-- 投稿フォーム -->
+    <form method="post" action="{% url 'diary' %}">
+        {% csrf_token %}
+        <label for="entry">日記を書く:</label>
+        <textarea name="entry" rows="4" cols="50"></textarea>
+        <button type="submit">投稿</button>
+    </form>
+
+    <!-- 日記エントリの一覧 -->
+    {% if entries %}
+        <ul>
+            {% for entry in entries %}
+                <li>
+                    {{ entry.content }}
+                    <!-- 投稿修正ボタン -->
+                    <a href="{% url 'edit_diary' entry.id %}">修正</a>
+                    <!-- 投稿削除ボタン -->
+                    <a href="{% url 'delete_diary' entry.id %}">削除</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>まだ日記がありません。</p>
+    {% endif %}
+
+</body>
+</html>

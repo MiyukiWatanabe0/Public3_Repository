@@ -1,0 +1,39 @@
+<!-- Unityapp/templates/bulletin_board.html -->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>掲示板</title>
+    <!-- 必要に応じてスタイルやスクリプトのリンクを追加 -->
+</head>
+<body>
+    <h1>掲示板</h1>
+
+    <!-- 投稿フォーム -->
+    <form method="post" action="{% url 'bulletin_board' %}">
+        {% csrf_token %}
+        <label for="title">タイトル:</label>
+        <input type="text" id="title" name="title" required><br>
+
+        <label for="content">内容:</label>
+        <textarea id="content" name="content" required></textarea><br>
+
+        <input type="submit" value="投稿">
+    </form>
+
+    <!-- 投稿一覧 -->
+    <ul>
+        {% for post in posts %}
+            <li>
+                <strong>{{ post.title }}</strong><br>
+                {{ post.content }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- ホームへのリンク -->
+    <a href="{% url 'home_home' %}">ホームへ戻る</a>
+</body>
+</html>

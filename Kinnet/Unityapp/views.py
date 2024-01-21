@@ -5,6 +5,12 @@ from django.contrib.auth.forms import UserCreationForm
 import pdb
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .models import DiaryEntry
+from .forms import DiaryEntryForm
+from django.http import HttpResponse
+
 
 class HomePageView(View):
     def get(self, request):
@@ -63,7 +69,7 @@ class HomeHomeView(View):
         else:
             # ログインしていない場合の処理（例: ログインページへのリダイレクトなど）
             # お好みに合わせて実装してください
-            return render(request, 'login.html')
+            return render(request, 'login')
         
 class ChatView(View):
     def get(self, request):
@@ -98,6 +104,36 @@ class ChatHomePageView(View):
     def get(self, request):
         # チャットホームページの実装
         return render(request, 'chat_home_page.html')
+    
+class DiaryPageView(View):
+    def get(self, request):
+        entries = DiaryEntry.objects.all()
+        return render(request, 'diary.html', {'entries': entries})
+
+    def post(self, request):
+        form = DiaryEntryForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('diary')
+
+class EditDiaryView(View):
+    def get(self, request, entry_id):
+        entry = DiaryEntry.objects.get(id=entry_id)
+        form = DiaryEntryForm(instance=entry)
+        return render(request, 'edit_diary.html', {'form': form, 'entry': entry})
+
+    def post(self, request, entry_id):
+        entry = DiaryEntry.objects.get(id=entry_id)
+        form = DiaryEntryForm(request.POST, instance=entry)
+        if form.is_valid():
+            form.save()
+        return redirect('diary')
+
+class DeleteDiaryView(View):
+    def get(self, request, entry_id):
+        entry = DiaryEntry.objects.get(id=entry_id)
+        entry.delete()
+        return redirect('diary')
 
 def signup_view(request):
     return render(request, 'signup.html')

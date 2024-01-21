@@ -8,6 +8,8 @@ from .views import ChatView
 from .views import BulletinBoardView
 from .views import DiaryView
 from .views import ChatHomeView, CreateChatRoomView, ChatLoginView, ChatHomePageView
+from .views import DiaryView, EditDiaryView, DeleteDiaryView
+
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
@@ -18,9 +20,12 @@ urlpatterns = [
     path('home_home/', HomeHomeView.as_view(), name='home_home'), 
     path('chat/', ChatView.as_view(), name='chat'),
     path('bulletin_board/', BulletinBoardView.as_view(), name='bulletin_board'),
-    path('Diary/', DiaryView.as_view(), name='diary'),
+    path('diary/', DiaryView.as_view(), name='diary'),
     path('chat_home/', ChatHomeView.as_view(), name='chat_home'),
     path('create_chat_room/', CreateChatRoomView.as_view(), name='create_chat_room'),
     path('chat_login/', ChatLoginView.as_view(), name='chat_login'),
     path('chat_home_page/', ChatHomePageView.as_view(), name='chat_home_page'),  
-]
+    path('diary/edit/<int:entry_id>/', EditDiaryView.as_view(), name='edit_diary'),
+    path('diary/delete/<int:entry_id>/', DeleteDiaryView.as_view(), name='delete_diary'),
+    ]
+    
