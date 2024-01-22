@@ -8,8 +8,10 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from .models import DiaryEntry, Comment
-from .forms import DiaryEntryForm
+from .forms import DiaryEntryForm, CommentForm
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
 class HomePageView(View):
     def get(self, request):
@@ -183,5 +185,10 @@ def logout_view(request):
     # ログアウト処理のコードを追加
     # ここにログアウト処理のコードを追加
     return redirect('home')
+
+def get_dialog_content(request, entry_id):
+    entry = get_object_or_404(DiaryEntry, id=entry_id)
+    dialog_content = {'entryId': entry_id, 'content': entry.content}
+    return JsonResponse(dialog_content)
 
 # Create your views here.

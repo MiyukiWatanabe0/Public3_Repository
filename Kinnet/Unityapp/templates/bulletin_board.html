@@ -11,6 +11,23 @@
 <body>
     <h1>掲示板</h1>
 
+    <!-- 地域別プルダウンメニュー -->
+    <form method="post" action="{% url 'bulletin_board' %}">
+        {% csrf_token %}
+        <label for="region">地域:</label>
+        <select id="region" name="region">
+            <option value="hokkaido">北海道</option>
+            <option value="tohoku">東北</option>
+            <option value="kanto">関東</option>
+            <option value="shinetsu">北信越</option>
+            <option value="tokai">東海</option>
+            <option value="kansai">関西</option>
+            <option value="chugoku">中国</option>
+            <option value="shikoku">四国</option>
+            <option value="kyushu">九州</option>
+        </select>
+        <br>
+
     <!-- 投稿フォーム -->
     <form method="post" action="{% url 'bulletin_board' %}">
         {% csrf_token %}

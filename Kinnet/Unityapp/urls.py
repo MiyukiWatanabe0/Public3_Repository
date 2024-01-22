@@ -10,6 +10,7 @@ from .views import DiaryView
 from .views import ChatHomeView, CreateChatRoomView, ChatLoginView, ChatHomePageView
 from .views import DiaryView, EditDiaryView, DeleteDiaryView
 from .views import DiaryPageView
+from .views import get_dialog_content
 
 
 urlpatterns = [
@@ -29,5 +30,7 @@ urlpatterns = [
     path('diary/edit/<int:entry_id>/', EditDiaryView.as_view(), name='edit_diary'),
     path('diary/delete/<int:entry_id>/', DeleteDiaryView.as_view(), name='delete_diary'),
     path('diary/', DiaryPageView.as_view(), name='diary'),
+    path('get_dialog_content/<int:entry_id>/', get_dialog_content, name='get_dialog_content'),
+
     ]
     
