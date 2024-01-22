@@ -9,6 +9,7 @@ from .views import BulletinBoardView
 from .views import DiaryView
 from .views import ChatHomeView, CreateChatRoomView, ChatLoginView, ChatHomePageView
 from .views import DiaryView, EditDiaryView, DeleteDiaryView
+from .views import DiaryPageView
 
 
 urlpatterns = [
@@ -27,5 +28,6 @@ urlpatterns = [
     path('chat_home_page/', ChatHomePageView.as_view(), name='chat_home_page'),  
     path('diary/edit/<int:entry_id>/', EditDiaryView.as_view(), name='edit_diary'),
     path('diary/delete/<int:entry_id>/', DeleteDiaryView.as_view(), name='delete_diary'),
+    path('diary/', DiaryPageView.as_view(), name='diary'),
     ]
     

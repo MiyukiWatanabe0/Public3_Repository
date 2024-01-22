@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
+from django.urls import reverse
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -22,7 +24,26 @@ class Diary(models.Model):
 
 class DiaryEntry(models.Model):
     content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def formatted_date(self):
+        return self.created_at.strftime('%Y年%m月%d日 %H:%M')
 
+    def get_absolute_url(self):
+        return reverse('diary_detail', args=[str(self.pk)])
+
+class Comment(models.Model):
+    diary_entry = models.ForeignKey(DiaryEntry, on_delete=models.CASCADE, related_name='comments')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('diary_detail', args=[str(self.diary_entry.pk)])
+
+    def __str__(self):
+        return f'{self.user.username} - {self.created_at}'
+    
 
 # Create your models here.

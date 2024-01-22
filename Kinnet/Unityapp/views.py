@@ -7,10 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import DiaryEntry
+from .models import DiaryEntry, Comment
 from .forms import DiaryEntryForm
 from django.http import HttpResponse
-
 
 class HomePageView(View):
     def get(self, request):
@@ -83,8 +82,15 @@ class BulletinBoardView(View):
 
 class DiaryView(View):
     def get(self, request):
-        # DiaryViewの実装
-        return render(request, 'diary.html')
+        entries = DiaryEntry.objects.all()
+        return render(request, 'diary.html', {'entries': entries, 'form': DiaryEntryForm()})
+
+    def post(self, request):
+        form = DiaryEntryForm(request.POST)
+        if form.is_valid():
+            form.save()
+        entries = DiaryEntry.objects.all()
+        return render(request, 'diary.html', {'entries': entries, 'form': DiaryEntryForm()})
     
 class ChatHomeView(View):
     def get(self, request):
@@ -108,7 +114,7 @@ class ChatHomePageView(View):
 class DiaryPageView(View):
     def get(self, request):
         entries = DiaryEntry.objects.all()
-        return render(request, 'diary.html', {'entries': entries})
+        return render(request, 'diary.html', {'entries': entries, 'form': DiaryEntryForm()})
 
     def post(self, request):
         form = DiaryEntryForm(request.POST)
@@ -134,6 +140,22 @@ class DeleteDiaryView(View):
         entry = DiaryEntry.objects.get(id=entry_id)
         entry.delete()
         return redirect('diary')
+
+class DiaryDetailView(View):
+    def get(self, request, entry_id):
+        entry = get_object_or_404(DiaryEntry, id=entry_id)
+        comments = Comment.objects.filter(diary_entry=entry)
+        return render(request, 'diary_detail.html', {'entry': entry, 'comments': comments})
+
+    def post(self, request, entry_id):
+        entry = get_object_or_404(DiaryEntry, id=entry_id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.diary_entry = entry
+            comment.user = request.user
+            comment.save()
+        return redirect('diary_detail', entry_id=entry_id)
 
 def signup_view(request):
     return render(request, 'signup.html')

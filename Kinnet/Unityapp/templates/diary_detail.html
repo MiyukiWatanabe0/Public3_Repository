@@ -1,0 +1,28 @@
+<!-- Unityapp/templates/diary_detail.html -->
+
+{% block content %}
+    <h2>{{ entry.created_at|date:'Y年m月d日 H:i' }}</h2>
+    <p>{{ entry.content }}</p>
+
+  <h3>コメント</h3>
+  <ul>
+    {% for comment in comments %}
+      <li>
+        {{ comment.content }} ({{ comment.created_at|date:'Y年m月d日 H:i' }}) by {{ comment.user.username }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h3>コメント投稿</h3>
+  <form method="post" action="{% url 'post_comment' entry.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">投稿</button>
+  </form>
+
+  <!-- 日記一覧に戻るリンク -->
+  <a href="{% url 'diary' %}">日記に戻る</a>
+
+  <!-- ホーム画面に戻るリンク -->
+  <a href="{% url 'home_home' %}">ホームに戻る</a>
+{% endblock %}

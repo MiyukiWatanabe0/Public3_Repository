@@ -1,0 +1,12 @@
+<!-- Unityapp/templates/edit_diary.html -->
+
+{% block content %}
+  <h2>日記内容の編集</h2>
+  <form method="post" action="{% url 'edit_diary' entry.id %}">
+    {% csrf_token %}
+    <label for="content">内容：</label>
+    <textarea name="content" rows="4" cols="50">{{ entry.content }}</textarea>
+    <button type="submit">変更を保存</button>
+  </form>
+  <a href="{% url 'diary' %}">日記に戻る</a>
+{% endblock %}

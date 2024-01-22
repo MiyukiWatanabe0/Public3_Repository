@@ -1,0 +1,26 @@
+<!-- Unityapp/templates/base.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Diary</h2>
+  <form method="post" action="{% url 'diary' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post</button>
+  </form>
+
+  <ul>
+    {% if entries %}
+      {% for entry in entries %}
+        <li>
+          {{ entry.content }}
+          <a href="{% url 'edit_diary' entry.id %}">編集</a>
+          <a href="{% url 'delete_diary' entry.id %}">削除</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>まだ日記がありません。</p>
+  {% endif %}
+{% endblock %}
