@@ -6,10 +6,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>掲示板</title>
-    <!-- 必要に応じてスタイルやスクリプトのリンクを追加 -->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 90vh; /* 画面全体の高さいっぱいに表示するために追加 */
+            margin: 0; /* デフォルトのマージンを削除 */
+            overflow-y: scroll; /* 縦方向のスクロールを有効にするために追加 */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center; /* テキストを中央に配置するために追加 */
+        }
+    </style>
 </head>
 <body>
     <h1>掲示板</h1>
+    <p>住んでいる地域の支援やサービスを書き込むお部屋です。</p>
+    <p1>個人的な情報などは書き込みをしないようにお願いいたします！</p1>
+    <p2>都道府県の書き込みはOKです！それ以外の個人情報の詳細を書き込むのはお控えください。</p2>
 
     <!-- 地域別プルダウンメニュー -->
     <form method="post" action="{% url 'bulletin_board' %}">
@@ -31,7 +51,7 @@
     <!-- 投稿フォーム -->
     <form method="post" action="{% url 'bulletin_board' %}">
         {% csrf_token %}
-        <label for="title">タイトル:</label>
+        <label for="title">都道府県名:</label>
         <input type="text" id="title" name="title" required><br>
 
         <label for="content">内容:</label>

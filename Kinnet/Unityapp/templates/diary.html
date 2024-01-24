@@ -75,6 +75,8 @@
                     {{ entry.content }}
                     <!-- 日記を書いた日の日付を表示 -->
                     <p>投稿日: {{ entry.created_at|date:'Y年m月d日 H:i' }}</p>
+                    <!-- コメント一覧へのリンク -->
+                    <a href="{% url 'diary_detail' entry.id %}">コメント</a>
                     <!-- 投稿修正ボタン -->
                     <a href="{% url 'edit_diary' entry.id %}">修正</a>
                     <!-- 投稿削除ボタン -->
@@ -154,3 +156,4 @@
 
 </body>
 </html>
+

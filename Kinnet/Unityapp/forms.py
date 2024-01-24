@@ -8,8 +8,11 @@ class DiaryEntryForm(forms.ModelForm):
     class Meta:
         model = DiaryEntry
         fields = ['content']
-    
+
 class CommentForm(forms.ModelForm):
-    class Meta:
+     class Meta:
         model = Comment
         fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'placeholder': 'コメントを入力してください'}),
+        }

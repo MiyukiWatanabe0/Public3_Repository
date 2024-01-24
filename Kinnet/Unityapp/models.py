@@ -34,9 +34,8 @@ class DiaryEntry(models.Model):
 
 class Comment(models.Model):
     diary_entry = models.ForeignKey(DiaryEntry, on_delete=models.CASCADE, related_name='comments')
-    content = models.TextField()
+    content = models.TextField(max_length=280)  # ツイッター風の文字数制限（例：280文字）
     created_at = models.DateTimeField(auto_now_add=True)
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def get_absolute_url(self):

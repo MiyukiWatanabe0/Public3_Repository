@@ -145,12 +145,13 @@ class DeleteDiaryView(View):
 
 class DiaryDetailView(View):
     def get(self, request, entry_id):
-        entry = get_object_or_404(DiaryEntry, id=entry_id)
+        entry = DiaryEntry.objects.get(id=entry_id)
         comments = Comment.objects.filter(diary_entry=entry)
-        return render(request, 'diary_detail.html', {'entry': entry, 'comments': comments})
+        form = CommentForm()
+        return render(request, 'diary_detail.html', {'entry': entry, 'comments': comments, 'form': form})
 
     def post(self, request, entry_id):
-        entry = get_object_or_404(DiaryEntry, id=entry_id)
+        entry = DiaryEntry.objects.get(id=entry_id)
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
@@ -159,6 +160,43 @@ class DiaryDetailView(View):
             comment.save()
         return redirect('diary_detail', entry_id=entry_id)
 
+    def post_comment(self, request, entry_id):
+        # Handle the comment submission here, similar to the post method in DiaryDetailView
+        if request.method == 'POST':
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                entry = DiaryEntry.objects.get(id=entry_id)
+                comment = form.save(commit=False)
+                comment.diary_entry = entry
+                comment.user = request.user
+                comment.save()
+        return HttpResponse("Comment submitted successfully")  # You can customize the response as needed
+
+class EditCommentView(View):
+    def get(self, request, comment_id):
+        comment = Comment.objects.get(id=comment_id)
+        form = CommentForm(instance=comment)
+        return render(request, 'edit_comment.html', {'form': form, 'comment': comment})
+
+    def post(self, request, comment_id):
+        comment = Comment.objects.get(id=comment_id)
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+        return redirect('diary_detail', entry_id=comment.diary_entry.pk)
+
+class DeleteCommentView(View):
+    def get(self, request, comment_id):
+        comment = Comment.objects.get(id=comment_id)
+        entry_id = comment.diary_entry.pk # 追加
+        return render(request, 'delete_comment.html', {'comment': comment})
+
+    def post(self, request, comment_id):
+        comment = Comment.objects.get(id=comment_id)
+        entry_id = comment.diary_entry.pk  # 追加
+        comment.delete()
+        return redirect('diary_detail', entry_id=entry_id)
+    
 def signup_view(request):
     return render(request, 'signup.html')
 

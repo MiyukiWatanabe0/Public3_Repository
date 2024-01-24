@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import HomePageView, SignupView, LoginView, LogoutView, HomeHomeView
 from .views import register_view
 from .views import login_view
@@ -11,7 +11,7 @@ from .views import ChatHomeView, CreateChatRoomView, ChatLoginView, ChatHomePage
 from .views import DiaryView, EditDiaryView, DeleteDiaryView
 from .views import DiaryPageView
 from .views import get_dialog_content
-
+from .views import DiaryDetailView, EditCommentView, DeleteCommentView
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
@@ -31,6 +31,10 @@ urlpatterns = [
     path('diary/delete/<int:entry_id>/', DeleteDiaryView.as_view(), name='delete_diary'),
     path('diary/', DiaryPageView.as_view(), name='diary'),
     path('get_dialog_content/<int:entry_id>/', get_dialog_content, name='get_dialog_content'),
-
+    path('diary/detail/<int:entry_id>/', DiaryDetailView.as_view(), name='diary_detail'),
+    path('diary/detail/<int:entry_id>/', DiaryDetailView.as_view(), name='diary_detail'),
+    path('diary/detail/<int:entry_id>/post_comment/', DiaryDetailView.as_view(), name='post_comment'),
+    path('diary/detail/<int:entry_id>/edit_comment/<int:comment_id>/', EditCommentView.as_view(), name='edit_comment'),
+    path('diary/detail/<int:entry_id>/delete_comment/<int:comment_id>/', DeleteCommentView.as_view(), name='delete_comment'),
     ]
     

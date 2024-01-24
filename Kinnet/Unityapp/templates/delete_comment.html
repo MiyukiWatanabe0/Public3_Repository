@@ -1,0 +1,11 @@
+<!-- delete_comment.html -->
+{% block content %}
+    <h2>Delete Comment</h2>
+    <p>Are you sure you want to delete the following comment?</p>
+    <p>{{ comment.content }} ({{ comment.created_at|date:'Y年m月d日 H:i' }}) by {{ comment.user.username }}</p>
+    <form method="post" action="{% url 'delete_comment' comment.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+        <a href="{% url 'diary_detail' entry_id %}">Cancel</a>
+    </form>
+{% endblock %}
