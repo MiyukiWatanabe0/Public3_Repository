@@ -1,14 +1,15 @@
 <!-- Unityapp/templates/diary_detail.html -->
 
 {% block content %}
-    <h2>{{ entry.created_at|date:'Y年m月d日 H:i' }}</h2>
-    <p>{{ entry.content }}</p>
-
-    <h3>コメント</h3>
-    <ul>
+   <h3>コメント</h3>
+   <ul>
         {% for comment in comments %}
             <li>
                 {{ comment.content }} ({{ comment.created_at|date:'Y年m月d日 H:i' }}) by {{ comment.user.username }}
+                <!-- 修正リンク -->
+                <a href="{% url 'edit_comment' entry_id=entry.id comment_id=comment.id %}">修正</a>
+                <!-- 削除リンク -->
+                <a href="{% url 'delete_comment' entry_id=entry.id comment_id=comment.id %}">削除</a>
             </li>
         {% endfor %}
     </ul>

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 
@@ -22,6 +21,14 @@ class Post(models.Model):
 class Diary(models.Model):
     content = models.TextField()
 
+class BulletinPost(models.Model):
+    region = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.title
+
 class DiaryEntry(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -34,12 +41,12 @@ class DiaryEntry(models.Model):
 
 class Comment(models.Model):
     diary_entry = models.ForeignKey(DiaryEntry, on_delete=models.CASCADE, related_name='comments')
-    content = models.TextField(max_length=280)  # ツイッター風の文字数制限（例：280文字）
+    content = models.TextField(max_length=280)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('diary_detail', args=[str(self.diary_entry.pk)])
+        return reverse('diary_detail', args=[str(self.pk)])
 
     def __str__(self):
         return f'{self.user.username} - {self.created_at}'

@@ -12,6 +12,11 @@ from .forms import DiaryEntryForm, CommentForm
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
+from .models import BulletinPost
+from .forms import BulletinPostForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 class HomePageView(View):
     def get(self, request):
@@ -77,7 +82,7 @@ class ChatView(View):
         # ChatViewの実装
         return render(request, 'chat_home.html')
     
-class BulletinBoardView(View):
+class BulletinBoarPagedView(View):
     def get(self, request):
         # BulletinBoardViewの実装
         return render(request, 'bulletin_board.html')
@@ -104,14 +109,90 @@ class CreateChatRoomView(View):
         return render(request, 'create_chat_room.html')
 
 class ChatLoginView(View):
-    def get(self, request):
-        # ログインの実装
-        return render(request, 'chat_login.html')
+    template_name = 'chat_login.html'
 
-class ChatHomePageView(View):
     def get(self, request):
-        # チャットホームページの実装
-        return render(request, 'chat_home_page.html')
+        # GETメソッドの処理を実装
+        return render(request, self.template_name, {'form': AuthenticationForm()})
+
+    def post(self, request):
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+
+            user = authenticate(request, username=username, password=password)
+            print(f"認証されたユーザー: {user}")
+
+            if user is not None:
+                login(request, user)
+                return redirect('chat_room')  # チャットルームページにリダイレクト
+            else:
+                return render(request, self.template_name, {'form': form, 'error': '無効なログイン資格情報です'})
+        else:
+            return render(request, self.template_name, {'form': form})
+             
+class ChatRoomView(View):
+    template_name = 'chat_room.html'
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            # ユーザーがログインしている場合は、チャットルームの画面を表示
+            return render(request, self.template_name)
+        else:
+            # ログインしていない場合は、ログインページにリダイレクト
+            return redirect('chat_login')
+        
+class FamilyChatLoginView(View):
+    def get(self, request):
+        # 家族チャットログインのビューの実装
+        return render(request, 'family_chat_login.html')
+
+class SiblingChatLoginView(View):
+    def get(self, request):
+        # きょうだいチャットログインのビューの実装
+        return render(request, 'sibling_chat_login.html')
+        
+class BulletinBoardView(View):
+    template_name = 'bulletin_board.html'
+
+    def get(self, request):
+        posts = BulletinPost.objects.all()
+        return render(request, self.template_name, {'posts': posts, 'form': BulletinPostForm()})
+
+    def post(self, request):
+        form = BulletinPostForm(request.POST)
+        if form.is_valid():
+            form.save()
+        posts = BulletinPost.objects.all()
+        return render(request, self.template_name, {'posts': posts, 'form': BulletinPostForm()})
+    
+class EditBulletinPostView(View):
+    template_name = 'edit_bulletin_post.html'
+
+    def get(self, request, post_id):
+        post = BulletinPost.objects.get(id=post_id)
+        form = BulletinPostForm(instance=post)
+        return render(request, self.template_name, {'form': form, 'post': post})
+
+    def post(self, request, post_id):
+        post = BulletinPost.objects.get(id=post_id)
+        form = BulletinPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+        return redirect('bulletin_board')
+
+class DeleteBulletinPostView(View):
+    template_name = 'delete_bulletin_post.html'
+
+    def get(self, request, post_id):
+        post = BulletinPost.objects.get(id=post_id)
+        return render(request, self.template_name, {'post': post})
+
+    def post(self, request, post_id):
+        post = BulletinPost.objects.get(id=post_id)
+        post.delete()
+        return redirect('bulletin_board')
     
 class DiaryPageView(View):
     def get(self, request):
@@ -144,13 +225,13 @@ class DeleteDiaryView(View):
         return redirect('diary')
 
 class DiaryDetailView(View):
-    def get(self, request, entry_id):
+     def get(self, request, entry_id):
         entry = DiaryEntry.objects.get(id=entry_id)
         comments = Comment.objects.filter(diary_entry=entry)
         form = CommentForm()
         return render(request, 'diary_detail.html', {'entry': entry, 'comments': comments, 'form': form})
 
-    def post(self, request, entry_id):
+     def post(self, request, entry_id):
         entry = DiaryEntry.objects.get(id=entry_id)
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -160,17 +241,21 @@ class DiaryDetailView(View):
             comment.save()
         return redirect('diary_detail', entry_id=entry_id)
 
-    def post_comment(self, request, entry_id):
-        # Handle the comment submission here, similar to the post method in DiaryDetailView
-        if request.method == 'POST':
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                entry = DiaryEntry.objects.get(id=entry_id)
-                comment = form.save(commit=False)
-                comment.diary_entry = entry
-                comment.user = request.user
-                comment.save()
-        return HttpResponse("Comment submitted successfully")  # You can customize the response as needed
+     def post_comment(self, request, entry_id):
+         if request.method == 'POST':
+             form = CommentForm(request.POST)
+             if form.is_valid():
+                 entry = DiaryEntry.objects.get(id=entry_id)
+                 comment = form.save(commit=False)
+                 comment.diary_entry = entry
+                 comment.user = request.user
+                 comment.save()
+
+    # 投稿が成功した後、コメント一覧を表示
+         entry = DiaryEntry.objects.get(id=entry_id)
+         comments = Comment.objects.filter(diary_entry=entry)
+         form = CommentForm()
+         return render(request, 'diary_detail.html', {'entry': entry, 'comments': comments, 'form': form})
 
 class EditCommentView(View):
     def get(self, request, comment_id):
@@ -186,15 +271,18 @@ class EditCommentView(View):
         return redirect('diary_detail', entry_id=comment.diary_entry.pk)
 
 class DeleteCommentView(View):
-    def get(self, request, comment_id):
+    template_name = 'delete_comment.html'
+
+    def get(self, request, *args, **kwargs):
+        comment_id = kwargs.get('comment_id')
         comment = Comment.objects.get(id=comment_id)
-        entry_id = comment.diary_entry.pk # 追加
-        return render(request, 'delete_comment.html', {'comment': comment})
+        return render(request, self.template_name, {'comment': comment})
 
     def post(self, request, comment_id):
         comment = Comment.objects.get(id=comment_id)
-        entry_id = comment.diary_entry.pk  # 追加
+        entry_id = comment.diary_entry.pk  # 日記エントリーのIDを取得
         comment.delete()
+        print("Comment deleted successfully")  # デバッグログ
         return redirect('diary_detail', entry_id=entry_id)
     
 def signup_view(request):

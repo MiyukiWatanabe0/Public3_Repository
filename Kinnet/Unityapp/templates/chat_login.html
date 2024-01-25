@@ -1,0 +1,29 @@
+<!-- Unityapp/templates/chat_login.html -->
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>チャットルーム ログイン</title>
+    <!-- 任意のスタイルやスクリプトを追加 -->
+</head>
+<body>
+    <h1>チャットルーム ログイン</h1>
+    <form method="post" action="{% url 'chat_login' %}">
+        {% csrf_token %}
+        <!-- ニックネームの入力フォーム -->
+        <label for="nickname">ニックネーム:</label>
+        <input type="text" id="nickname" name="nickname" required>
+        <br>
+        <!-- パスワードの入力フォーム -->
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <!-- ログインボタン -->
+        <input type="submit" value="ログイン">
+    </form>
+</body>
+</html>
+{% endblock %}

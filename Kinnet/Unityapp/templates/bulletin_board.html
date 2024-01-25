@@ -31,11 +31,11 @@
     <p1>個人的な情報などは書き込みをしないようにお願いいたします！</p1>
     <p2>都道府県の書き込みはOKです！それ以外の個人情報の詳細を書き込むのはお控えください。</p2>
 
-    <!-- 地域別プルダウンメニュー -->
-    <form method="post" action="{% url 'bulletin_board' %}">
-        {% csrf_token %}
-        <label for="region">地域:</label>
-        <select id="region" name="region">
+<!-- 地域別プルダウンメニュー -->
+<form method="post" action="{% url 'bulletin_board' %}">
+    {% csrf_token %}
+    <label for="region">地域:</label>
+    <select id="region" name="region">
             <option value="hokkaido">北海道</option>
             <option value="tohoku">東北</option>
             <option value="kanto">関東</option>
@@ -48,17 +48,15 @@
         </select>
         <br>
 
-    <!-- 投稿フォーム -->
-    <form method="post" action="{% url 'bulletin_board' %}">
-        {% csrf_token %}
-        <label for="title">都道府県名:</label>
-        <input type="text" id="title" name="title" required><br>
+     <!-- 投稿フォーム -->
+     <label for="title">都道府県名:</label>
+     <input type="text" id="title" name="title" required><br>
 
-        <label for="content">内容:</label>
-        <textarea id="content" name="content" required></textarea><br>
+     <label for="content">内容:</label>
+     <textarea id="content" name="content" required></textarea><br>
 
-        <input type="submit" value="投稿">
-    </form>
+     <input type="submit" value="投稿">
+ </form>
 
     <!-- 投稿一覧 -->
     <ul>
