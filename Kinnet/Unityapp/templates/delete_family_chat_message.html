@@ -1,0 +1,15 @@
+<!-- Unityapp/templates/delete_family_chat_message.html -->
+
+{% extends 'family_chat_room_login.html' %}
+
+{% block content %}
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: -120px;">
+    <h2>家族チャットメッセージの削除</h2>
+    <p>本当にこのメッセージを削除しますか？</p>
+    <form method="post" action="{% url 'delete_family_chat_message' message.id %}" style="width: 300px; text-align: center;">
+      {% csrf_token %}
+      <button type="submit">削除する</button>
+    </form>
+    <a href="{% url 'family_chat_room_login' %}">キャンセル</a>
+  </div>
+{% endblock %}

@@ -1,12 +1,26 @@
-<!-- Unityapp/templates/edit_diary.html -->
-
 {% block content %}
-  <h2>日記内容の編集</h2>
-  <form method="post" action="{% url 'edit_diary' entry.id %}">
-    {% csrf_token %}
-    <label for="content">内容：</label>
-    <textarea name="content" rows="4" cols="50">{{ entry.content }}</textarea>
-    <button type="submit">変更を保存</button>
-  </form>
-  <a href="{% url 'diary' %}">日記に戻る</a>
+  <div class="center-container">
+    <h2>日記内容の編集</h2>
+    <form method="post" action="{% url 'edit_diary' entry.id %}">
+      {% csrf_token %}
+      <label for="content">内容：</label>
+      <textarea name="content" rows="4" cols="50">{{ entry.content }}</textarea>
+      <button type="submit">変更を保存</button>
+    </form>
+    <a href="{% url 'diary' %}">日記に戻る</a>
+  </div>
 {% endblock %}
+
+<style>
+  .center-container {
+    position: absolute; 
+    margin-top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+  }
+</style>

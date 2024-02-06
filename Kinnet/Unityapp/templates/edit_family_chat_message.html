@@ -1,0 +1,13 @@
+<!-- Unityapp/templates/edit_family_chat_message.html -->
+{% extends 'family_chat_room_login.html' %}
+
+{% block content %}
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: -120px;">
+    <h2>家族チャットメッセージの編集</h2>
+    <form method="post" action="{% if message.id %}{% url 'edit_family_chat_message' message.id %}{% endif %}" style="width: 300px; text-align: center;">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">変更を保存</button>
+    </form>
+  </div>
+{% endblock %}

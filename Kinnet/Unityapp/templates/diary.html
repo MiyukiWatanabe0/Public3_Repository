@@ -51,6 +51,14 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
+        ul {
+           list-style-type: none; /* 箇条書きのマーカーを削除 */
+           padding: 0; /* デフォルトのパディングを削除 */
+        }
+
+        li {
+           margin-bottom: 20px; /* 各日記エントリの下に20ピクセルの間隔を追加 */
+        }
     </style>
 </head>
 <body>
@@ -68,91 +76,29 @@
     </form>
 
     <!-- 日記エントリの一覧 -->
-    {% if entries %}
-        <ul>
-            {% for entry in entries %}
-                <li>
-                    {{ entry.content }}
-                    <!-- 日記を書いた日の日付を表示 -->
-                    <p>投稿日: {{ entry.created_at|date:'Y年m月d日 H:i' }}</p>
-                    <!-- コメント一覧へのリンク -->
-                    <a href="{% url 'diary_detail' entry.id %}">コメント</a>
-                    <!-- 投稿修正ボタン -->
-                    <a href="{% url 'edit_diary' entry.id %}">修正</a>
-                    <!-- 投稿削除ボタン -->
-                    <a href="{% url 'delete_diary' entry.id %}">削除</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>まだ日記がありません。</p>
-    {% endif %}
+ {% if entries %}
+    <ul>
+        {% for entry in entries %}
+            <li>
+                {{ entry.content }}
+                <!-- 日記を書いたユーザーネームを表示 -->
+                <p>投稿者: {{ entry.user.username }}</p>
+                <p>投稿日: {{ entry.created_at|date:'Y年m月d日 H:i' }}</p>
+                <!-- コメント一覧へのリンク -->
+                <a href="{% url 'diary_detail' entry.id %}">コメント</a>
+                <!-- 投稿修正ボタン -->
+                <a href="{% url 'edit_diary' entry.id %}">修正</a>
+                <!-- 投稿削除ボタン -->
+                <a href="{% url 'delete_diary_confirm' entry.id %}">削除</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>まだ日記がありません。</p>
+{% endif %}
 
     <!-- ホーム画面への遷移リンク -->
     <a href="{% url 'home_home' %}">ホームに戻る</a>
-
-    <!-- カスタムダイアログの内容 -->
-    <div class="custom-dialog-overlay" id="customDialogOverlay"></div>
-    <div class="custom-dialog" id="customDialog">
-        <div class="dialog-content"></div>
-        <button onclick="confirmDelete(true)">はい</button>
-        <button onclick="confirmDelete(false)">いいえ</button>
-    </div>
-
-    <!-- JavaScriptでカスタムダイアログを制御 -->
-    <script>
-        function showCustomDialog(entryId) {
-            var overlay = document.getElementById('customDialogOverlay');
-            var dialog = document.getElementById('customDialog');
-
-            // Ajaxを使用してサーバーからダイアログ内容を取得
-            fetch(`/get_dialog_content/${entryId}/`)
-                .then(response => response.json())
-                .then(data => {
-                    // ダイアログの表示
-                    showDialog(data);
-                })
-                .catch(error => console.error('Error fetching dialog content:', error));
-        }
-
-        function showDialog(dialogContent) {
-            var overlay = document.getElementById('customDialogOverlay');
-            var dialog = document.getElementById('customDialog');
-
-            // オーバーレイとダイアログを表示
-            overlay.style.display = 'block';
-            dialog.style.display = 'block';
-
-            // ダイアログ内の要素に内容を設定
-            var contentElement = dialog.querySelector('.dialog-content');
-            contentElement.innerHTML = dialogContent.content;
-
-            // ダイアログ内のボタンにエントリIDを設定
-            var yesButton = dialog.querySelector('button:nth-child(1)');
-            var noButton = dialog.querySelector('button:nth-child(2)');
-            yesButton.dataset.entryId = dialogContent.entryId;
-            noButton.dataset.entryId = dialogContent.entryId;
-       }
-
-        function hideDialog() {
-            var overlay = document.getElementById('customDialogOverlay');
-            var dialog = document.getElementById('customDialog');
-
-            // オーバーレイとダイアログを非表示
-            overlay.style.display = 'none';
-            dialog.style.display = 'none';
-        }
-
-        function confirmDelete(shouldDelete) {
-            hideDialog();
-
-            if (shouldDelete) {
-                // はいがクリックされた場合の処理
-                var entryId = document.getElementById('customDialog').querySelector('button:nth-child(1)').dataset.entryId;
-                window.location.href = `/delete_diary/${entryId}/`;
-            }
-        }
-    </script>
 
 </body>
 </html>

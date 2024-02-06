@@ -12,16 +12,20 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 90vh; /* 画面全体の高さいっぱいに表示するために追加 */
-            margin: 0; /* デフォルトのマージンを削除 */
-            overflow-y: scroll; /* 縦方向のスクロールを有効にするために追加 */
+            margin: 0;
+            overflow-y: scroll;
         }
 
         form {
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center; /* テキストを中央に配置するために追加 */
+            text-align: center;
+            margin-bottom: 20px; /* フォームの下に余白を追加 */
+        }
+
+        h1, p, p1, p2 {
+            margin-bottom: 10px; /* 各要素の下に余白を追加 */
         }
     </style>
 </head>
@@ -31,32 +35,33 @@
     <p1>個人的な情報などは書き込みをしないようにお願いいたします！</p1>
     <p2>都道府県の書き込みはOKです！それ以外の個人情報の詳細を書き込むのはお控えください。</p2>
 
-<!-- 地域別プルダウンメニュー -->
-<form method="post" action="{% url 'bulletin_board' %}">
+    <!-- 地域別プルダウンメニュー -->
+    <form method="post" action="{% url 'bulletin_board' %}">
     {% csrf_token %}
     <label for="region">地域:</label>
     <select id="region" name="region">
-            <option value="hokkaido">北海道</option>
-            <option value="tohoku">東北</option>
-            <option value="kanto">関東</option>
-            <option value="shinetsu">北信越</option>
-            <option value="tokai">東海</option>
-            <option value="kansai">関西</option>
-            <option value="chugoku">中国</option>
-            <option value="shikoku">四国</option>
-            <option value="kyushu">九州</option>
-        </select>
-        <br>
+        <option value="hokkaido">北海道</option>
+        <option value="tohoku">東北</option>
+        <option value="kanto">関東</option>
+        <option value="shinetsu">北信越</option>
+        <option value="tokai">東海</option>
+        <option value="kansai">関西</option>
+        <option value="chugoku">中国</option>
+        <option value="shikoku">四国</option>
+        <option value="kyushu">九州</option>
+    </select>
+    <br>
 
-     <!-- 投稿フォーム -->
-     <label for="title">都道府県名:</label>
-     <input type="text" id="title" name="title" required><br>
+    <!-- 投稿フォーム -->
+    <label for="title">タイトル:</label>
+    <input type="text" id="title" name="title" required><br>
 
-     <label for="content">内容:</label>
-     <textarea id="content" name="content" required></textarea><br>
+    <label for="content">内容:</label>
+    <textarea id="content" name="content" required></textarea><br>
 
-     <input type="submit" value="投稿">
- </form>
+    <!-- 投稿ボタンの追加 -->
+    <input type="submit" value="投稿">
+    </form>
 
     <!-- 投稿一覧 -->
     <ul>
@@ -64,6 +69,9 @@
             <li>
                 <strong>{{ post.title }}</strong><br>
                 {{ post.content }}
+                <br>
+                <a href="{% url 'edit_bulletin_post' post.id %}">編集</a>
+                <a href="{% url 'delete_bulletin_post' post.id %}">削除</a>
             </li>
         {% endfor %}
     </ul>

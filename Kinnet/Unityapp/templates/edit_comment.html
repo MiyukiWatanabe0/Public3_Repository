@@ -1,0 +1,13 @@
+<!-- Unityapp/templates/edit_comment.html -->
+
+{% block content %}
+  <h2>コメント内容の編集</h2>
+  <form method="post" action="{% url 'edit_comment' comment.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <!-- 変更を保存するボタン -->
+    <button type="submit">変更を保存</button>
+  </form>
+  <!-- 修正点: 日記詳細ページへのリンクを 'diary_detail_confirm' から 'diary_detail' に修正 -->
+  <a href="{% url 'diary_detail' entry_id=comment.diary_entry.pk %}">コメントに戻る</a>
+{% endblock %}

@@ -1,0 +1,45 @@
+<!-- Unityapp/templates/family_chat_room_login.html -->
+
+{% extends 'chat_room.html' %}
+
+{% block title %}家族チャットルーム{% endblock %}
+
+{% block heading %}家族チャットルーム{% endblock %}
+
+{% block content %}
+    <!-- ここに家族チャットルーム画面のコンテンツを追加 -->
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow-y: auto; height: 100vh; padding: 80px 0;">
+
+        <h2>家族チャットルーム</h2>
+        <p>家族チャットルームは、困っていることや少し悩んでいることを呟く場所です。</p>
+        <p1>※個人名や住所、電話番号など、個人情報を特定できるような投稿はお控えいただきますよう、よろしくお願いいたします。</p1>
+        <p2>※悪口などの誹謗中傷もお控えください。</p2>
+        <p3>メッセージ記載欄は下にあります↓↓</p3>
+
+        <div style="flex: 1; overflow-y: auto; max-height: 400px;">
+            {% for message in chat_messages %}
+                <div style="word-break: break-all; white-space: pre-wrap; max-width: 400px; margin: 10px auto;">
+                    <p><strong>{{ message.user.username }}:</strong> {{ message.content }}</p>
+                    
+                    <!-- 編集リンクと削除リンクを横並びにする -->
+                    <div style="display: flex; align-items: center;">
+                        <a href="{% url 'edit_family_chat_message' message.id %}" style="margin-right: 10px;">編集</a>
+                        <a href="{% url 'delete_family_chat_message' message.id %}">削除</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- チャット入力フォーム -->
+        <form method="post" action="{% url 'family_chat_room_login' %}" style="margin: 10px auto;">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="メッセージを入力" style="max-width: 400px;">
+            <button type="submit">送信</button>
+        </form>
+
+        <!-- チャットルーム画面に戻るリンク -->
+        <div style="margin: 10px auto;">
+            <a href="{% url 'chat_room' %}">チャットルームに戻る</a>
+        </div>
+    </div>
+{% endblock %}

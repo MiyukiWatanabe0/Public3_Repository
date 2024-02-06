@@ -1,0 +1,14 @@
+<!-- Unityapp/templates/edit_bulletin_post.html -->
+
+{% block content %}
+  <div style="text-align: center; margin-top: 50px; min-height: 100vh;">
+    <h1>掲示板の投稿を編集</h1>
+    <form method="post" style="display: inline-block;">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="変更を保存">
+    </form>
+    <br>
+    <a href="{% url 'bulletin_board' %}">キャンセル</a>
+  </div>
+{% endblock %}

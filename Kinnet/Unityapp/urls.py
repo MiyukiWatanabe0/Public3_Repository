@@ -12,9 +12,14 @@ from .views import EditBulletinPostView, DeleteBulletinPostView
 from .views import DiaryView
 from .views import ChatHomeView, CreateChatRoomView, ChatLoginView, ChatRoomView
 from .views import get_dialog_content
-from .views import DiaryDetailView, EditCommentView, DeleteCommentView
-from .views import EditDiaryView, DeleteDiaryView,DiaryPageView
+from .views import DiaryDetailView, EditCommentView, DeleteCommentView, DeleteDiaryConfirmView
+from .views import EditDiaryView, DiaryPageView
 from .views import FamilyChatLoginView, SiblingChatLoginView
+from .views import FamilyChatRoomLoginView, SiblingChatRoomLoginView
+from .views import DiaryDetailView
+from .views import EditFamilyChatMessageView, DeleteFamilyChatMessageView
+from .views import EditSiblingChatMessageView,  DeleteSiblingChatMessageView
+from .views import DeleteBulletinPostView
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
@@ -35,14 +40,22 @@ urlpatterns = [
     path('sibling_chat_login/', SiblingChatLoginView.as_view(), name='sibling_chat_login'),
     path('chat_room/', ChatRoomView.as_view(), name='chat_room'),
     path('diary/edit/<int:entry_id>/', EditDiaryView.as_view(), name='edit_diary'),
-    path('diary/delete/<int:entry_id>/', DeleteDiaryView.as_view(), name='delete_diary'),
+    path('diary/delete-confirm/<int:entry_id>/', DeleteDiaryConfirmView.as_view(), name='delete_diary_confirm'),
     path('diary/', DiaryPageView.as_view(), name='diary'),
     path('get_dialog_content/<int:entry_id>/', get_dialog_content, name='get_dialog_content'),
     path('diary/detail/<int:entry_id>/', DiaryDetailView.as_view(), name='diary_detail'),
     path('diary/detail/<int:entry_id>/edit_comment/<int:comment_id>/', EditCommentView.as_view(), name='edit_comment'),
-    path('diary/detail/<int:entry_id>/delete_comment/<int:comment_id>/', DeleteCommentView.as_view(), name='delete_comment'),
-    path('diary/detail/<int:entry_id>/post_comment/', DiaryDetailView.as_view(), name='post_comment'),
     path('chat_room/', ChatRoomView.as_view(), name='chat_room'),
+    path('family_chat_room_login/', FamilyChatRoomLoginView.as_view(), name='family_chat_room_login'),
+    path('sibling_chat_room_login/', SiblingChatRoomLoginView.as_view(), name='sibling_chat_room_login'),
+    path('diary/detail/<int:entry_id>/delete_comment/<int:comment_id>/', DeleteCommentView.as_view(), name='delete_comment'),
+    path('family_chat_room_login/', FamilyChatRoomLoginView.as_view(), name='family_chat_room_login'),
+    path('edit_family_chat_message/<int:message_id>/', EditFamilyChatMessageView.as_view(), name='edit_family_chat_message'),
+    path('delete_family_chat_message/<int:message_id>/', DeleteFamilyChatMessageView.as_view(), name='delete_family_chat_message'),
+    path('edit_sibling_chat_message/<int:message_id>/', EditSiblingChatMessageView.as_view(), name='edit_sibling_chat_message'),
+    path('delete_sibling_chat_message/<int:message_id>/', DeleteSiblingChatMessageView.as_view(), name='delete_sibling_chat_message'),
+    path('diary/delete-confirm/<int:entry_id>/', DeleteDiaryConfirmView.as_view(), name='delete_diary_confirm'),
+    path('bulletin_board/delete/<int:post_id>/', DeleteBulletinPostView.as_view(), name='delete_bulletin_post'),
+    path('diary/detail/<int:entry_id>/', DiaryDetailView.as_view(), name='diary_detail'),
+    path('edit_comment/<int:comment_id>/', EditCommentView.as_view(), name='edit_comment'),
 ] 
-
-    

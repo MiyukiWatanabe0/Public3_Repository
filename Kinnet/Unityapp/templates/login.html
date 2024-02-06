@@ -18,9 +18,17 @@
             max-width: 400px;
             width: 100%;
             margin-top: 20px;
+            text-align: center; /* フォーム内の要素を中央に寄せる */
         }
         label, input {
             margin-bottom: 25px;
+            box-sizing: border-box; /* 幅や高さにpaddingやborderを含める */
+            display: inline-block; /* チェックボックスとラベルを横並びにするために追加 */
+            vertical-align: middle; /* 垂直方向の中央揃えを追加 */
+        }
+        input[type="submit"] {
+            width: auto; /* ボタンを必要な幅に調整 */
+            margin: 0 auto; /* ボタンを中央に寄せる */
         }
         a {
             margin-top: 10px;
@@ -38,6 +46,9 @@
         <label for="password">パスワード:</label>
         <input type="password" id="password" name="password" required><br>
 
+        <input type="checkbox" id="remember_me" name="remember_me">
+        <label for="remember_me">ログイン状態を保持する</label><br>
+    
         <input type="submit" value="ログイン">
     </form>
     <p>新規登録はまだですか？ <a href="{% url 'signup' %}">こちら</a></p>
@@ -45,5 +56,6 @@
     <a href="{% url 'logout' %}">ログアウト</a>
 
     <a href="{% url 'password_reset' %}">パスワードを忘れた場合</a>
+
 </body>
 </html>

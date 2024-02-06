@@ -1,0 +1,52 @@
+<!-- Unityapp/templates/diary_detail_confirm.html -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日記詳細</title>
+    <!-- ここに必要なCSSやJavaScriptのリンクを追加 -->
+</head>
+<body>
+    <h1>日記詳細</h1>
+
+    <div>
+        <h2>{{ entry.content }}</h2>
+        <p>投稿者: {{ entry.user.username }}</p>
+        <p>投稿日: {{ entry.created_at|date:'Y年m月d日 H:i' }}</p>
+    </div>
+
+    <div>
+        <h3>コメント一覧</h3>
+        {% if comments %}
+            <ul>
+                {% for comment in comments %}
+                    <li>
+                        <p>{{ comment.content }}</p>
+                        <p>投稿者: {{ comment.user.username }}</p>
+                        <p>投稿日: {{ comment.created_at|date:'Y年m月d日 H:i' }}</p>
+                        <!-- 編集へのリンク -->
+                        <a href="{% url 'edit_comment' entry_id=entry.id comment_id=comment.id %}">編集</a>
+                        <!-- 削除へのリンク -->
+                        <a href="{% url 'delete_comment' entry_id=entry.id comment_id=comment.id %}">削除</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>まだコメントがありません。</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <h3>新しいコメント</h3>
+        <form method="post" action="{% url 'diary_detail' entry_id=entry.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">コメントする</button>
+        </form>
+    </div>
+
+    <!-- ホーム画面への遷移リンク -->
+    <a href="{% url 'home_home' %}">ホームに戻る</a>
+</body>
+</html>

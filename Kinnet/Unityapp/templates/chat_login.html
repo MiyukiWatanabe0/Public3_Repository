@@ -7,6 +7,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>チャットルーム ログイン</title>
+      <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: -120px;
+        }
+        form {
+            max-width: 400px;
+            width: 100%;
+            margin-top: 20px;
+            text-align: center; /* フォーム内の要素を中央に寄せる */
+        }
+        label, input {
+            margin-bottom: 25px;
+            box-sizing: border-box; /* 幅や高さにpaddingやborderを含める */
+        }
+        input[type="submit"] {
+            width: auto; /* ボタンを必要な幅に調整 */
+            margin: 0 auto; /* ボタンを中央に寄せる */
+        }
+        a {
+            margin-top: 10px;
+        }
+      </style>
     <!-- 任意のスタイルやスクリプトを追加 -->
 </head>
 <body>
@@ -24,6 +51,11 @@
         <!-- ログインボタン -->
         <input type="submit" value="ログイン">
     </form>
+
+    <!-- チャットホーム画面に戻るリンク -->
+    <div>
+        <a href="{% url 'chat_home' %}">チャットホームに戻る</a>
+    </div>
 </body>
 </html>
 {% endblock %}

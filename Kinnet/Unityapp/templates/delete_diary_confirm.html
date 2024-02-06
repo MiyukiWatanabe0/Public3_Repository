@@ -1,0 +1,13 @@
+<!-- Unityapp/templates/delete_diary_confirm.html -->
+
+{% block content %}
+  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: -120px;">
+    <h2>日記削除の確認</h2>
+    <p>以下の日記を削除します。よろしいですか？</p>
+    <form method="post" action="{% url 'delete_diary_confirm' entry.id %}" style="width: 300px; text-align: center;">
+      {% csrf_token %}
+      <button type="submit">削除する</button>
+    </form>
+    <a href="{% url 'diary' %}">キャンセル</a>
+  </div>
+{% endblock %}
