@@ -32,23 +32,17 @@ class HomePageView(View):
         return render(request, 'home.html')
     
 class SignupView(View):
-    template_name = 'signup.html'
-
     def get(self, request):
         form = UserCreationForm()
-        return render(request, self.template_name, {'form': form})
-    
+        return render(request, 'signup.html', {'form': form})
+
     def post(self, request):
         form = UserCreationForm(request.POST)
-        # pdb.set_trace()
         if form.is_valid():
-            print("True")
-            user = form.save()
-            login(request, user)
+            user = form.save()  # save メソッドを呼び出すことでユーザーが作成され、デフォルト値が設定される
+            login(request, user)  # 新しいユーザーをログインさせる
             return redirect('home')
-
-        print("False")
-        return render(request, self.template_name, {'form': form})
+        return render(request, 'signup.html', {'form': form})
         
 class LoginView(View):
     def get(self, request):

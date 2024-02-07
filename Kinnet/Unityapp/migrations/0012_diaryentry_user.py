@@ -17,11 +17,10 @@ class Migration(migrations.Migration):
             model_name="diaryentry",
             name="user",
             field=models.ForeignKey(
-                default=datetime.datetime(
-                    2024, 2, 6, 6, 54, 8, 635738, tzinfo=datetime.timezone.utc
-                ),
-                on_delete=django.db.models.deletion.CASCADE,
+                default=None,
+                on_delete=models.CASCADE,
                 to=settings.AUTH_USER_MODEL,
+                null=True,
             ),
             preserve_default=False,
         ),

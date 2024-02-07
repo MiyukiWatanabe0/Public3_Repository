@@ -49,18 +49,18 @@ class BulletinPost(models.Model):
         return self.title
 
 class DiaryEntry(models.Model):
-     id = models.AutoField(primary_key=True)
-     user = models.ForeignKey(User, on_delete=models.CASCADE)
-     content = models.TextField()
-     created_at = models.DateTimeField(auto_now_add=True)
+    # id = models.AutoField(primary_key=True)  # この行を削除するかコメントアウトする
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
-     def formatted_date(self):
+    def formatted_date(self):
         return self.created_at.strftime('%Y年%m月%d日 %H:%M')
 
-     def get_absolute_url(self):
+    def get_absolute_url(self):
         return reverse('diary_detail', args=[str(self.pk)])
 
-     def get_user_username(self):
+    def get_user_username(self):
         if self.user:
             return self.user.username
         else:
