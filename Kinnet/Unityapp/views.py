@@ -50,12 +50,12 @@ class LoginView(View):
 
     def post(self, request):
         # pdb.set_trace()
-        username = request.POST.get('username')
+        nickname = request.POST.get('nickname')
         password = request.POST.get('password')
         remember_me = request.POST.get('remember_me')
-        print(f"Username: {username}, Password: {password}")
+        print(f"Nickname: {nickname}, Password: {password}")
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=nickname, password=password)
         print(f"Authenticated user: {user}")
 
         # pdb.set_trace()
@@ -71,9 +71,9 @@ class LoginView(View):
             return render(request, 'login.html', {'error': 'Invalid login credentials'})
 
 class LogoutView(View):
-    def get(self,request):
+    def get(self, request):
         request.session.clear()
-        return redirect('home')
+        return redirect('home')  # ログアウト後のリダイレクト先を適切に指定
     
 class HomeHomeView(View):
     def get(self, request):
