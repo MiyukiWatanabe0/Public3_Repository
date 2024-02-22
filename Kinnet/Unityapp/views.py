@@ -41,7 +41,7 @@ class SignupView(View):
         if form.is_valid():
             user = form.save()  # save メソッドを呼び出すことでユーザーが作成され、デフォルト値が設定される
             login(request, user)  # 新しいユーザーをログインさせる
-            return redirect('home')
+            return redirect('home_home')
         return render(request, 'signup.html', {'form': form})
         
 class LoginView(View):
