@@ -26,6 +26,7 @@ from Unityapp.models import SiblingChatMessage
 from .models import SiblingChatMessage
 from .forms import SiblingChatMessageForm
 from django.http import Http404
+from .forms import CustomUserCreationForm
 
 class HomePageView(View):
     def get(self, request):
@@ -33,14 +34,14 @@ class HomePageView(View):
     
 class SignupView(View):
     def get(self, request):
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
         return render(request, 'signup.html', {'form': form})
 
     def post(self, request):
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # save メソッドを呼び出すことでユーザーが作成され、デフォルト値が設定される
-            login(request, user)  # 新しいユーザーをログインさせる
+            user = form.save()
+            login(request, user)
             return redirect('home_home')
         return render(request, 'signup.html', {'form': form})
         
@@ -49,8 +50,7 @@ class LoginView(View):
         return render(request, 'login.html')
 
     def post(self, request):
-        # pdb.set_trace()
-        nickname = request.POST.get('nickname')
+        nickname = request.POST.get('nickname')  # 'username'の代わりに'nickname'を使用
         password = request.POST.get('password')
         remember_me = request.POST.get('remember_me')
         print(f"Nickname: {nickname}, Password: {password}")
@@ -58,7 +58,6 @@ class LoginView(View):
         user = authenticate(request, username=nickname, password=password)
         print(f"Authenticated user: {user}")
 
-        # pdb.set_trace()
         if user is not None:
             login(request, user)
             print("Login successful")
@@ -69,11 +68,6 @@ class LoginView(View):
             return redirect('home_home')
         else:
             return render(request, 'login.html', {'error': 'Invalid login credentials'})
-
-class LogoutView(View):
-    def get(self, request):
-        request.session.clear()
-        return redirect('home')  # ログアウト後のリダイレクト先を適切に指定
     
 class HomeHomeView(View):
     def get(self, request):
@@ -318,14 +312,12 @@ class DeleteBulletinPostView(View):
 class DiaryPageView(View):
     def get(self, request, entry_id):
         entry = DiaryEntry.objects.get(id=entry_id)
-        username = entry.user.username if entry.user else None
-        return render(request, 'diary.html', {'entry': entry, 'username': username})
+        return render(request, 'diary.html', {'entry': entry})
 
     def post(self, request):
         form = DiaryEntryForm(request.POST)
         if form.is_valid():
             entry = form.save(commit=False)
-            entry.user = request.user if request.user.is_authenticated else None
             entry.save()
         return redirect('diary')
 
@@ -358,11 +350,11 @@ class DiaryDetailView(View):
     def get(self, request, entry_id):
         entry = DiaryEntry.objects.get(id=entry_id)
         comments = Comment.objects.filter(diary_entry=entry)
-        form = CommentForm()  # フォームを新しく作成するよう修正
+        form = CommentForm()
 
         return render(request, 'diary_detail_confirm.html', {'entry': entry, 'comments': comments, 'form': form})
     
-    def post(self, request, entry_id):  # postメソッドを追加
+    def post(self, request, entry_id):
         entry = get_object_or_404(DiaryEntry, id=entry_id)
         comments = Comment.objects.filter(diary_entry=entry)
         form = CommentForm(request.POST)
@@ -370,11 +362,15 @@ class DiaryDetailView(View):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.diary_entry = entry
-            comment.user = request.user
             comment.save()
-            return redirect('diary_detail', entry_id=entry_id)  # コメントが正常に保存されたら詳細ページにリダイレクト
+            return redirect('diary_detail', entry_id=entry_id)
 
         return render(request, 'diary_detail_confirm.html', {'entry': entry, 'comments': comments, 'form': form})
+
+class DiaryDetailConfirmView(View):
+    def get(self, request):
+        # ビューのロジックを実装する
+        pass
     
 class EditCommentView(View):
     def get(self, request, comment_id, *args, **kwargs):
@@ -387,20 +383,17 @@ class EditCommentView(View):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             form.save()
-            # リダイレクト先を 'diary_detail_confirm' から 'diary_detail' に修正
             return redirect('diary_detail', entry_id=comment.diary_entry.pk)
         else:
-            # 修正点: エラー時に 'edit_comment.html' を表示する
             return render(request, 'edit_comment.html', {'form': form, 'comment': comment})
         
 class DeleteCommentView(View):
-    def get(self, request, comment_id):
+    def get(self, request, entry_id, comment_id):
         comment = get_object_or_404(Comment, id=comment_id)
-        return render(request, 'delete_comment.html', {'comment': comment})
+        return render(request, 'delete_comment.html', {'comment': comment, 'entry_id': entry_id})
 
-    def post(self, request, comment_id):
+    def post(self, request, entry_id, comment_id):
         comment = get_object_or_404(Comment, id=comment_id)
-        entry_id = comment.diary_entry.pk
         comment.delete()
         return redirect('diary_detail', entry_id=entry_id)
     

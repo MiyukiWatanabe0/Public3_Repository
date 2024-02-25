@@ -41,7 +41,7 @@ class Diary(models.Model):
     content = models.TextField()
 
 class BulletinPost(models.Model):
-    region = models.CharField(max_length=255)
+    region = models.CharField(max_length=50) 
     title = models.CharField(max_length=255)
     content = models.TextField()
 
@@ -70,13 +70,12 @@ class Comment(models.Model):
     diary_entry = models.ForeignKey(DiaryEntry, on_delete=models.CASCADE, related_name='comments')
     content = models.TextField(max_length=280)
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
-
+    
     def get_absolute_url(self):
-        return reverse('diary_detail', args=[str(self.pk)])
+        return reverse('diary_detail', args=[str(self.diary_entry.pk)])
 
     def __str__(self):
-        return f'{self.user.username} - {self.created_at}'
+        return f'{self.created_at}'
 
 class ChatMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

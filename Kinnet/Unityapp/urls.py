@@ -1,5 +1,6 @@
+from django.contrib import admin
 from django.urls import path, re_path
-from .views import HomePageView, SignupView, LoginView, LogoutView, HomeHomeView
+from .views import HomePageView, SignupView, LoginView,  HomeHomeView
 from .views import register_view
 from .views import login_view
 from .views import logout_view
@@ -20,12 +21,14 @@ from .views import DiaryDetailView
 from .views import EditFamilyChatMessageView, DeleteFamilyChatMessageView
 from .views import EditSiblingChatMessageView,  DeleteSiblingChatMessageView
 from .views import DeleteBulletinPostView
+from .views import DiaryDetailConfirmView
+from .views import LoginView
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
     path('password_reset/', PasswordResetView.as_view(), name='password_reset'),
     path('home_home/', HomeHomeView.as_view(), name='home_home'), 
     path('chat/', ChatView.as_view(), name='chat'), 
@@ -58,4 +61,5 @@ urlpatterns = [
     path('bulletin_board/delete/<int:post_id>/', DeleteBulletinPostView.as_view(), name='delete_bulletin_post'),
     path('diary/detail/<int:entry_id>/', DiaryDetailView.as_view(), name='diary_detail'),
     path('edit_comment/<int:comment_id>/', EditCommentView.as_view(), name='edit_comment'),
-] 
+    path('diary_detail_confirm/', DiaryDetailConfirmView.as_view(), name='diary_detail_confirm'),
+    ]

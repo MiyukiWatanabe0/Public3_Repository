@@ -33,12 +33,11 @@
     <h1>掲示板</h1>
     <p>住んでいる地域の支援やサービスを書き込むお部屋です。</p>
     <p1>個人的な情報などは書き込みをしないようにお願いいたします！</p1>
-    <p2>都道府県の書き込みはOKです！それ以外の個人情報の詳細を書き込むのはお控えください。</p2>
 
     <!-- 地域別プルダウンメニュー -->
     <form method="post" action="{% url 'bulletin_board' %}">
     {% csrf_token %}
-    <label for="region">地域:</label>
+     <label for="region">地域:</label>
     <select id="region" name="region">
         <option value="hokkaido">北海道</option>
         <option value="tohoku">東北</option>
@@ -68,6 +67,27 @@
         {% for post in posts %}
             <li>
                 <strong>{{ post.title }}</strong><br>
+                地域: 
+                {% if post.region == "hokkaido" %}
+                    北海道
+                {% elif post.region == "tohoku" %}
+                    東北
+                {% elif post.region == "kanto" %}
+                    関東
+                {% elif post.region == "shinetsu" %}
+                    北信越
+                {% elif post.region == "tokai" %}
+                    東海
+                {% elif post.region == "kansai" %}
+                    関西
+                {% elif post.region == "chugoku" %}
+                    中国
+                {% elif post.region == "shikoku" %}
+                    四国
+                {% elif post.region == "kyushu" %}
+                    九州
+                {% endif %}
+                <br>
                 {{ post.content }}
                 <br>
                 <a href="{% url 'edit_bulletin_post' post.id %}">編集</a>

@@ -82,7 +82,6 @@
             <li>
                 {{ entry.content }}
                 <!-- 日記を書いたユーザーネームを表示 -->
-                <p>投稿者: {{ entry.user.username }}</p>
                 <p>投稿日: {{ entry.created_at|date:'Y年m月d日 H:i' }}</p>
                 <!-- コメント一覧へのリンク -->
                 <a href="{% url 'diary_detail' entry.id %}">コメント</a>

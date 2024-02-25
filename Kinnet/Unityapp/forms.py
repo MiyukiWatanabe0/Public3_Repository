@@ -5,6 +5,15 @@ from django import forms
 from .models import Comment
 from .models import FamilyChatMessage
 from .models import SiblingChatMessage
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True, label='Eメールアドレス')
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
 
 class BulletinPostForm(forms.ModelForm):
     class Meta:
@@ -27,7 +36,7 @@ class CommentForm(forms.ModelForm):
 class FamilyChatMessageForm(forms.ModelForm):
     class Meta:
         model = FamilyChatMessage
-        fields = ['content']  # 'content' フィールド以外にも必要なフィールドがあれば追加してください
+        fields = ['user', 'content']  # 'content' フィールド以外にも必要なフィールドがあれば追加してください
 
 class SiblingChatMessageForm(forms.ModelForm):
     class Meta:

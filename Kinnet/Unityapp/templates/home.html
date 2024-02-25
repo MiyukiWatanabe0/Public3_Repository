@@ -1,8 +1,8 @@
-<!-- home. html -->
+<!-- home.html -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset~"UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ユーザー画面</title>
     <style>
@@ -37,8 +37,12 @@
     <p>ユーザー画面</p>
 
     <div>
-        <li><a href="{% url 'signup' %}">新規登録</a></li>
-        <li><a href="{% url 'login' %}">ログイン</a></li>
+        <ul>
+            <li><a href="{% url 'signup' %}">新規登録</a></li>
+            <li><a href="{% url 'login' %}">ログイン</a></li>
+            <!-- Django管理サイトへのリンクを追加 -->
+            <li><a href="{% url 'admin:index' %}" target="_blank">管理サイト</a></li>
+        </ul>
     </div>
 </body>
 </html>
