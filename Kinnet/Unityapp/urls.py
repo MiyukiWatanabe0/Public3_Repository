@@ -26,6 +26,7 @@ from .views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('my_admin/', admin.site.urls),
     path('', HomePageView.as_view(), name='home'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
