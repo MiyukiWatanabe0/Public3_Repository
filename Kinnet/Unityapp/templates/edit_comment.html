@@ -3,26 +3,24 @@
 {% block content %}
   <div class="center-container">
     <h2>コメント内容の編集</h2>
-    <form method="post" action="{% url 'edit_comment' comment.id %}">
+    <form method="post" action="{% url 'edit_comment' comment.id %}" style="width: 80%; text-align: center;">
       {% csrf_token %}
       <label for="content">内容：</label>
-      <textarea name="content" rows="4" cols="50">{{ entry.content }}</textarea>
-      <button type="submit">変更を保存</button>
+      <textarea name="content" rows="4" style="width: 100%;">{{ entry.content }}</textarea>
+      <br>
+      <button type="submit" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">変更を保存</button>
     </form>
-    <a href="{% url 'diary_detail' entry_id=comment.diary_entry.pk %}">コメントに戻る</a>
+    <br>
+    <a href="{% url 'diary_detail' entry_id=comment.diary_entry.pk %}" style="font-size: 16px; color: #0066cc; text-decoration: none;">コメントに戻る</a>
   </div>
 {% endblock %}
 
 <style>
   .center-container {
-    position: absolute; 
-    margin-top: -100px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; 
+    min-height: 100vh;
   }
 </style>

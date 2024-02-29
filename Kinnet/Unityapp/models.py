@@ -59,7 +59,7 @@ class DiaryEntry(models.Model):
 
     def get_absolute_url(self):
         return reverse('diary_detail', args=[str(self.pk)])
-
+    
     def get_user_username(self):
         if self.user:
             return self.user.username

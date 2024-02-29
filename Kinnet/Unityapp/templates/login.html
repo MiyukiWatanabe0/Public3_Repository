@@ -12,26 +12,28 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: -50px;
+            margin: 0; /* 余白を削除 */
+            padding: 10px; /* パディングを追加 */
         }
         form {
             max-width: 400px;
             width: 100%;
             margin-top: 20px;
-            text-align: center; /* フォーム内の要素を中央に寄せる */
+            text-align: center;
         }
         label, input {
-            margin-bottom: 25px;
-            box-sizing: border-box; /* 幅や高さにpaddingやborderを含める */
-            display: inline-block; /* チェックボックスとラベルを横並びにするために追加 */
-            vertical-align: middle; /* 垂直方向の中央揃えを追加 */
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            display: inline-block;
+            vertical-align: middle;
         }
         input[type="submit"] {
-            width: auto; /* ボタンを必要な幅に調整 */
-            margin: 0 auto; /* ボタンを中央に寄せる */
+            width: auto;
+            margin: 0 auto;
         }
         a {
             margin-top: 10px;
+            display: block; /* ブロック要素として表示 */
         }
     </style>
 </head>

@@ -14,7 +14,8 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            margin: -120px;
+            margin: 0; /* 余白を削除 */
+            padding: 10px; /* ページ全体に少し余白を追加 */
         }
         form {
             max-width: 400px;
@@ -23,12 +24,11 @@
             text-align: center; /* フォーム内の要素を中央に寄せる */
         }
         label, input {
-            margin-bottom: 25px;
+            margin-bottom: 15px; /* フォーム要素ごとに余白を減少 */
             box-sizing: border-box; /* 幅や高さにpaddingやborderを含める */
         }
         input[type="submit"] {
-            width: auto; /* ボタンを必要な幅に調整 */
-            margin: 0 auto; /* ボタンを中央に寄せる */
+            width: 100%; /* ボタンを幅いっぱいに広げる */
         }
         a {
             margin-top: 10px;

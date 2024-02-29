@@ -16,6 +16,10 @@
             overflow-y: scroll;
         }
 
+        h1, p, p1 {
+            margin-bottom: 10px; /* 各要素の下に余白を追加 */
+        }
+
         form {
             display: flex;
             flex-direction: column;
@@ -24,8 +28,13 @@
             margin-bottom: 20px; /* フォームの下に余白を追加 */
         }
 
-        h1, p, p1, p2 {
-            margin-bottom: 10px; /* 各要素の下に余白を追加 */
+        ul {
+            padding: 0;
+            list-style: none; /* リストのデフォルトスタイルを無効化 */
+        }
+
+        li {
+            margin-bottom: 20px; /* 各リストアイテムの下に余白を追加 */
         }
     </style>
 </head>
@@ -34,7 +43,7 @@
     <p>住んでいる地域の支援やサービスを書き込むお部屋です。</p>
     <p1>個人的な情報などは書き込みをしないようにお願いいたします！</p1>
 
-    <!-- 地域別プルダウンメニュー -->
+     <!-- 地域別プルダウンメニュー -->
     <form method="post" action="{% url 'bulletin_board' %}">
     {% csrf_token %}
      <label for="region">地域:</label>
@@ -51,15 +60,15 @@
     </select>
     <br>
 
-    <!-- 投稿フォーム -->
-    <label for="title">タイトル:</label>
-    <input type="text" id="title" name="title" required><br>
+        <!-- 投稿フォーム -->
+        <label for="title">タイトル:</label>
+        <input type="text" id="title" name="title" required><br>
 
-    <label for="content">内容:</label>
-    <textarea id="content" name="content" required></textarea><br>
+        <label for="content">内容:</label>
+        <textarea id="content" name="content" required></textarea><br>
 
-    <!-- 投稿ボタンの追加 -->
-    <input type="submit" value="投稿">
+        <!-- 投稿ボタンの追加 -->
+        <input type="submit" value="投稿">
     </form>
 
     <!-- 投稿一覧 -->

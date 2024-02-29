@@ -8,13 +8,13 @@
 
 {% block content %}
     <!-- ここにきょうだいチャットルーム画面のコンテンツを追加 -->
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow-y: auto; height: 100vh; padding: 80px 0;">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow-y: auto; height: 100vh; padding: 20px;">
 
         <h2>きょうだいチャットルーム</h2>
-        <p>きょうだいチャットルームは、兄弟姉妹間でのコミュニケーションや相談の場所です。</P>
-        <p1>※個人名や住所、電話番号など、個人情報を特定できるような投稿はお控えいただきますよう、よろしくお願いいたします。</p1>
-        <p2>※悪口などの誹謗中傷もお控えください。</p2>
-        <p3>メッセージ記載欄は下にあります↓↓</p3>
+        <p>きょうだいチャットルームは、兄弟姉妹間でのコミュニケーションや相談の場所です。</p>
+        <p>※個人名や住所、電話番号など、個人情報を特定できるような投稿はお控えいただきますよう、よろしくお願いいたします。</p>
+        <p>※悪口などの誹謗中傷もお控えください。</p>
+        <p>メッセージ記載欄は下にあります↓↓</p>
 
         <div style="flex: 1; overflow-y: auto; max-height: 400px;">
             {% for message in chat_messages %}
@@ -31,10 +31,10 @@
         </div>
 
         <!-- チャット入力フォーム -->
-        <form method="post" action="{% url 'sibling_chat_room_login' %}" style="margin: 10px auto;">
+        <form method="post" action="{% url 'sibling_chat_room_login' %}" style="margin: 10px auto; max-width: 400px;">
             {% csrf_token %}
-            <input type="text" name="content" placeholder="メッセージを入力" style="max-width: 400px;">
-            <button type="submit">送信</button>
+            <input type="text" name="content" placeholder="メッセージを入力" style="width: 100%;">
+            <button type="submit" style="width: 100%;">送信</button>
         </form>
 
         <!-- チャットルーム画面に戻るリンク -->

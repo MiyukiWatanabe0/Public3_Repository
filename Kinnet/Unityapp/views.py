@@ -27,6 +27,10 @@ from .models import SiblingChatMessage
 from .forms import SiblingChatMessageForm
 from django.http import Http404
 from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 
 class HomePageView(View):
     def get(self, request):
@@ -347,13 +351,6 @@ class DeleteDiaryConfirmView(View):
         return redirect('diary')
 
 class DiaryDetailView(View):
-    def get(self, request, entry_id):
-        entry = DiaryEntry.objects.get(id=entry_id)
-        comments = Comment.objects.filter(diary_entry=entry)
-        form = CommentForm()
-
-        return render(request, 'diary_detail_confirm.html', {'entry': entry, 'comments': comments, 'form': form})
-    
     def post(self, request, entry_id):
         entry = get_object_or_404(DiaryEntry, id=entry_id)
         comments = Comment.objects.filter(diary_entry=entry)
@@ -362,11 +359,20 @@ class DiaryDetailView(View):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.diary_entry = entry
+
+            # ログインしている場合のみユーザー情報を設定
+            if request.user.is_authenticated:
+                comment.user = request.user
+            else:
+                comment.user = None
+
             comment.save()
             return redirect('diary_detail', entry_id=entry_id)
 
-        return render(request, 'diary_detail_confirm.html', {'entry': entry, 'comments': comments, 'form': form})
+        # formが無効な場合はエラー処理などを追加できます
 
+        return render(request, 'diary_detail_confirm.html', {'entry': entry, 'comments': comments, 'form': form})
+    
 class DiaryDetailConfirmView(View):
     def get(self, request):
         # ビューのロジックを実装する

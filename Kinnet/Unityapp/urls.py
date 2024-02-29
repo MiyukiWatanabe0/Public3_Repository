@@ -17,7 +17,6 @@ from .views import DiaryDetailView, EditCommentView, DeleteCommentView, DeleteDi
 from .views import EditDiaryView, DiaryPageView
 from .views import FamilyChatLoginView, SiblingChatLoginView
 from .views import FamilyChatRoomLoginView, SiblingChatRoomLoginView
-from .views import DiaryDetailView
 from .views import EditFamilyChatMessageView, DeleteFamilyChatMessageView
 from .views import EditSiblingChatMessageView,  DeleteSiblingChatMessageView
 from .views import DeleteBulletinPostView

@@ -1,13 +1,62 @@
 <!-- Unityapp/templates/delete_diary_confirm.html -->
 
 {% block content %}
-  <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: -120px;">
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日記削除の確認</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0; /* 余白を削除 */
+            padding: 10px; /* ページ全体に少し余白を追加 */
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px; /* フォントサイズを調整 */
+        }
+
+        p {
+            font-size: 18px; /* フォントサイズを調整 */
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 300px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff3333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        a {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
     <h2>日記削除の確認</h2>
     <p>以下の日記を削除します。よろしいですか？</p>
-    <form method="post" action="{% url 'delete_diary_confirm' entry.id %}" style="width: 300px; text-align: center;">
-      {% csrf_token %}
-      <button type="submit">削除する</button>
+    <form method="post" action="{% url 'delete_diary_confirm' entry.id %}">
+        {% csrf_token %}
+        <button type="submit">削除する</button>
     </form>
     <a href="{% url 'diary' %}">キャンセル</a>
-  </div>
+</body>
+</html>
 {% endblock %}

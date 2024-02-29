@@ -1,10 +1,12 @@
 <!-- Unityapp/templates/chat_room.html -->
 
-
 {% block content %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}チャットルーム{% endblock %}</title>
     <style>
         body {
             display: flex;
@@ -12,7 +14,21 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: -120px;
+            margin: 0; /* 余白を削除 */
+            padding: 10px; /* ページ全体に少し余白を追加 */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* h1要素の下に余白を追加 */
+        }
+
+        div {
+            margin-bottom: 15px; /* リンクの下に余白を追加 */
+        }
+
+        a {
+            text-decoration: none; /* リンクの下線を削除 */
+            color: #0066cc; /* リンクの色を変更 */
         }
     </style>
     <!-- ... 以前のコード ... -->

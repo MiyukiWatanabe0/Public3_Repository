@@ -1,14 +1,15 @@
 <!-- Unityapp/templates/edit_bulletin_post.html -->
 
 {% block content %}
-  <div style="text-align: center; margin-top: 50px; min-height: 100vh;">
-    <h1>投稿の編集を修正</h1>
-    <form method="post" style="display: inline-block;">
+  <div style="text-align: center; padding: 10px; min-height: 100vh;">
+    <h1>投稿の編集</h1>
+    <form method="post" style="width: 80%; margin: 0 auto;">
       {% csrf_token %}
       {{ form.as_p }}
-      <input type="submit" value="変更を保存">
+      <br>
+      <input type="submit" value="変更を保存" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
     </form>
     <br>
-    <a href="{% url 'bulletin_board' %}">キャンセル</a>
+    <a href="{% url 'bulletin_board' %}" style="font-size: 16px; color: #0066cc; text-decoration: none;">キャンセル</a>
   </div>
 {% endblock %}
