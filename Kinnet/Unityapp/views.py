@@ -351,6 +351,13 @@ class DeleteDiaryConfirmView(View):
         return redirect('diary')
 
 class DiaryDetailView(View):
+    def get(self, request, entry_id):
+        entry = get_object_or_404(DiaryEntry, id=entry_id)
+        comments = Comment.objects.filter(diary_entry=entry)
+        form = CommentForm()
+
+        return render(request, 'diary_detail_confirm.html', {'entry': entry, 'comments': comments, 'form': form})
+
     def post(self, request, entry_id):
         entry = get_object_or_404(DiaryEntry, id=entry_id)
         comments = Comment.objects.filter(diary_entry=entry)
@@ -372,6 +379,7 @@ class DiaryDetailView(View):
         # formが無効な場合はエラー処理などを追加できます
 
         return render(request, 'diary_detail_confirm.html', {'entry': entry, 'comments': comments, 'form': form})
+
     
 class DiaryDetailConfirmView(View):
     def get(self, request):
