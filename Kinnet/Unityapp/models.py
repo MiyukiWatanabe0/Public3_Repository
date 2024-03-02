@@ -3,13 +3,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 
-# existing_user_instanceをUserモデルから取得する例
-try:
-    existing_user_instance = User.objects.get(pk=1)
-except User.DoesNotExist:
-    # もしユーザーが存在しない場合の処理
-    existing_user_instance = None  # あるいは、デフォルト値としてNoneを使用するか、適切な処理を追加してください
-
 # YourModelクラスでの利用
 class YourModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
