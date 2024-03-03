@@ -24,6 +24,7 @@
     <h1>ホーム画面</h1>
     <p>ようこそ、{{ user.username }}さん</p>
     {% include 'home_menu.html' %}
+    <a href="{% url 'login' %}">ログイン画面に戻る</a>
 </body>
 </html>
 
