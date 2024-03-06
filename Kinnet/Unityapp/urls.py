@@ -21,7 +21,6 @@ from .views import EditFamilyChatMessageView, DeleteFamilyChatMessageView
 from .views import EditSiblingChatMessageView,  DeleteSiblingChatMessageView
 from .views import DeleteBulletinPostView
 from .views import DiaryDetailConfirmView
-from .views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),

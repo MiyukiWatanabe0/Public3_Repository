@@ -8,7 +8,7 @@
 
 {% block content %}
     <!-- ここにきょうだいチャットルーム画面のコンテンツを追加 -->
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow-y: auto; height: 100vh; padding: 20px;">
+    <div style="display: flex; flex-direction: column; align-items: center; text-align: center; overflow-y: auto; height: 100vh; padding: 20px; box-sizing: border-box;">
 
         <h2>きょうだいチャットルーム</h2>
         <p>きょうだいチャットルームは、兄弟姉妹間でのコミュニケーションや相談の場所です。</p>
@@ -16,30 +16,32 @@
         <p>※悪口などの誹謗中傷もお控えください。</p>
         <p>メッセージ記載欄は下にあります↓↓</p>
 
-        <div style="flex: 1; overflow-y: auto; max-height: 400px;">
+        <div style="flex: 1; overflow-y: auto; max-width: 90%; box-sizing: border-box;">
             {% for message in chat_messages %}
-                <div style="word-break: break-all; white-space: pre-wrap; max-width: 400px; margin: 10px auto;">
+                <div style="word-break: break-all; white-space: pre-wrap; margin: 10px auto; border: 1px solid #ccc; padding: 10px; border-radius: 8px;">
                     <p><strong>{{ message.user.username }}:</strong> {{ message.content }}</p>
                     
                     <!-- 編集リンクと削除リンクを横並びにする -->
-                    <div style="display: flex; align-items: center;">
-                        <a href="{% url 'edit_sibling_chat_message' message.id %}" style="margin-right: 10px;">編集</a>
-                        <a href="{% url 'delete_sibling_chat_message' message.id %}">削除</a>
+                    <div style="display: flex; align-items: center; justify-content: flex-end; margin-top: 5px;">
+                        <a href="{% url 'edit_sibling_chat_message' message.id %}" style="margin-right: 10px; font-size: 14px;">編集</a>
+                        <a href="{% url 'delete_sibling_chat_message' message.id %}" style="font-size: 14px;">削除</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
 
         <!-- チャット入力フォーム -->
-        <form method="post" action="{% url 'sibling_chat_room_login' %}" style="margin: 10px auto; max-width: 400px;">
+        <form method="post" action="{% url 'sibling_chat_room_login' %}" style="margin: 10px auto; width: 90%; box-sizing: border-box;">
             {% csrf_token %}
-            <input type="text" name="content" placeholder="メッセージを入力" style="width: 100%;">
-            <button type="submit" style="width: 100%;">送信</button>
+            <input type="text" name="content" placeholder="メッセージを入力" style="width: 80%; padding: 8px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;">
+            <button type="submit" style="width: 18%; padding: 8px; font-size: 14px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">送信</button>
         </form>
 
+
         <!-- チャットルーム画面に戻るリンク -->
-        <div style="margin: 10px auto;">
-            <a href="{% url 'chat_room' %}">チャットルームに戻る</a>
+             <div style="margin: 10px auto;">
+            <a href="{% url 'chat_room' %}" style="font-size: 16px;">チャットルームに戻る</a>
         </div>
     </div>
 {% endblock %}
+

@@ -54,8 +54,8 @@ class LoginView(View):
         return render(request, 'login.html')
 
     def post(self, request):
-        nickname = request.POST.get('nickname')  # 'username'の代わりに'nickname'を使用
-        password = request.POST.get('password')
+        nickname = request.POST.get('nickname')  
+        password = request.POST.get('password')[:10]  # パスワードの文字数を10に制限
         remember_me = request.POST.get('remember_me')
         print(f"Nickname: {nickname}, Password: {password}")
 

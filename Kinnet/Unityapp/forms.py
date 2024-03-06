@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, label='Eメールアドレス')
+    password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'maxlength': '10'}))
 
     class Meta:
         model = User
