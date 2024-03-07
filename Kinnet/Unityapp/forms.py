@@ -12,6 +12,12 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, label='Eメールアドレス')
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'maxlength': '10'}))
 
+    def clean_password1(self):
+        password = self.cleaned_data.get("password1")
+        if password and len(password) < 10:
+           raise forms.ValidationError("パスワードは10文字以上で作成してください。")
+        return password
+
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')

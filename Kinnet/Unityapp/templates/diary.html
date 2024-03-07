@@ -7,61 +7,37 @@
     <title>ひとこと日記</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
             overflow-y: auto;
-            padding: 10px;
             text-align: center;
         }
 
         form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            max-width: 80%;
+            width: 100%;
+            margin: 10px auto;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
             text-align: center;
-            margin-top: 10px;
         }
 
         p {
             margin: 5px 0;
         }
 
-        .custom-dialog {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
-
-        .custom-dialog-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            margin-bottom: 20px;
+        textarea {
+            width: 60%;
+            box-sizing: border-box;
+            padding: 5px;
+            margin-bottom: 10px;
         }
 
         button {
@@ -71,6 +47,8 @@
             color: white;
             border: none;
             cursor: pointer;
+            display: block;
+            margin: 0 auto; /* ボタンを中央に寄せる */
         }
 
         a {
@@ -116,3 +94,4 @@
 
 </body>
 </html>
+
