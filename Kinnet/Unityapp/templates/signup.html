@@ -46,7 +46,7 @@
         a {
             margin-top: 10px;
         }
-
+        
         /* 追加: パスワードエラーメッセージのスタイル */
         p.error-message {
             color: red;
@@ -73,6 +73,11 @@
 
         {% if form.errors.password1 %}
             <p class="error-message">{{ form.errors.password1.0 }}</p>
+        {% endif %}
+        
+        <!-- 追加: パスワード再入力エラーメッセージ -->
+        {% if form.errors.password2 %}
+            <p class="error-message">{{ form.errors.password2.0 }}</p>
         {% endif %}
 
         <input type="submit" value="新規登録">

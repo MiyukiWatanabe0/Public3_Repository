@@ -31,6 +31,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_protect
 
 class HomePageView(View):
     def get(self, request):
@@ -48,15 +49,16 @@ class SignupView(View):
             login(request, user)
             return redirect('home_home')
         return render(request, 'signup.html', {'form': form})
-        
+
 class LoginView(View):
+    @method_decorator(csrf_protect)
     def get(self, request):
         return render(request, 'login.html')
 
+    @method_decorator(csrf_protect)
     def post(self, request):
         nickname = request.POST.get('nickname')  
         password = request.POST.get('password')[:10]  # パスワードの文字数を10に制限
-        remember_me = request.POST.get('remember_me')
         print(f"Nickname: {nickname}, Password: {password}")
 
         user = authenticate(request, username=nickname, password=password)
@@ -65,9 +67,6 @@ class LoginView(View):
         if user is not None:
             login(request, user)
             print("Login successful")
-
-            if not remember_me:
-                request.session.set_expiry(0)
 
             return redirect('home_home')
         else:

@@ -17,6 +17,13 @@ class CustomUserCreationForm(UserCreationForm):
         if password and len(password) < 10:
            raise forms.ValidationError("パスワードは10文字以上で作成してください。")
         return password
+    
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("入力したパスワードが間違っています。")
+        return password2
 
     class Meta:
         model = User
